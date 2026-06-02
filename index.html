@@ -792,4 +792,71 @@
 
 <!-- SCRIPTS -->
 <script>
+// Mobile menu toggle
+  const mobileToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('mobile-menu-icon-open');
+  const iconClose = document.getElementById('mobile-menu-icon-close');
+
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      iconOpen.classList.toggle('hidden', !isOpen === false);
+      iconClose.classList.toggle('hidden', !isOpen === true);
+    });
+  }
+
+  // Accordion for business hours
+  const dayCards = document.querySelectorAll('[data-accordion-day]');
+
+  dayCards.forEach(card => {
+    const button = card.querySelector('button');
+    const content = card.querySelector('.accordion-content');
+    const icon = card.querySelector('.accordion-icon');
+
+    button.addEventListener('click', () => {
+      const isOpen = content.classList.contains('open');
+
+      // Close all others
+      dayCards.forEach(otherCard => {
+        const otherContent = otherCard.querySelector('.accordion-content');
+        const otherIcon = otherCard.querySelector('.accordion-icon');
+        if (otherContent !== content) {
+          otherContent.style.maxHeight = null;
+          otherContent.classList.remove('open');
+        }
+      });
+
+      if (!isOpen) {
+        content.classList.add('open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      } else {
+        content.style.maxHeight = null;
+        content.classList.remove('open');
+      }
+    });
+
+    content.style.maxHeight = null;
+  });
+  // Smooth scroll for internal links (fallback for older browsers)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
 
